@@ -1,7 +1,8 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from .models import TransformationRequest, CanonicalProfile
+from .models import TransformationRequest
 from .pipeline.extractor import extract_all_sources
+from .pipeline.grouper import group_profiles
 from .pipeline.merger import merge_profiles
 from .pipeline.projector import project_data
 
@@ -24,20 +25,31 @@ def transform_profile(request: TransformationRequest):
         if not extracted:
             raise HTTPException(status_code=400, detail="No valid data extracted from sources.")
             
-        # 2 & 3. Normalize & Merge
-        canonical_dict = merge_profiles(extracted)
+        # Group extracted profiles by candidate
+        grouped = group_profiles(extracted)
         
-        # 4. Project
-        projected = {}
-        if request.config:
-            projected = project_data(canonical_dict, request.config)
-        else:
-            projected = canonical_dict
+        results = []
+        for group in grouped:
+            # 2 & 3. Normalize & Merge per candidate
+            canonical_dict = merge_profiles(group)
             
-        return {
-            "canonical": canonical_dict,
-            "projected": projected
-        }
+            # 4. Project
+            if request.config:
+                projected = project_data(canonical_dict, request.config)
+            else:
+                projected = canonical_dict
+                
+            results.append({
+                "canonical": canonical_dict,
+                "projected": projected
+            })
+            
+        # Return a single object if only one candidate, else a list
+        if len(results) == 1:
+            return results[0]
+        else:
+            # Note: We return it as an object with a results key to remain consistent
+            return {"results": results}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 

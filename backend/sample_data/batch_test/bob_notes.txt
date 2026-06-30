@@ -1,0 +1,4 @@
+Candidate: Bob Jones
+Email: bob.jones@example.com
+Currently at WebCorp as a Frontend Eng.
+Skills: React, Vue, HTML

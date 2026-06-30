@@ -1,0 +1,10 @@
+{
+  "id": "102",
+  "full_name": "Bob Jones",
+  "email": "bob.jones@example.com",
+  "phone": "555-0200",
+  "skills": ["React", "JavaScript", "CSS"],
+  "experience": [
+    {"company": "WebCorp", "title": "Frontend Eng"}
+  ]
+}

@@ -72,6 +72,12 @@ def extract_from_ats_json(json_text: str) -> List[Dict[str, Any]]:
         if "phone" in item:
             extracted["phones"].append(item["phone"])
             
+        if "experience" in item:
+            extracted["experience"] = item["experience"]
+            
+        if "education" in item:
+            extracted["education"] = item["education"]
+            
         loc = item.get("location")
         if isinstance(loc, str):
             parts = [p.strip() for p in loc.split(",")]
@@ -95,8 +101,12 @@ def extract_from_github(github_data: Dict[str, Any]) -> Dict[str, Any]:
         "confidence": 0.75,
         "full_name": github_data.get("name") or github_data.get("login"),
         "emails": [github_data["email"]] if github_data.get("email") else [],
+        "phones": [],
+        "skills": github_data.get("languages", []),
+        "experience": [],
+        "education": [],
         "location": {"city": github_data.get("location", "").split(",")[0]} if github_data.get("location") else {},
-        "links": {"github": github_data.get("html_url")},
+        "links": {"github": github_data.get("html_url")} if github_data.get("html_url") else {},
         "headline": github_data.get("bio")
     }
 
@@ -157,12 +167,11 @@ def extract_from_notes(notes_text: str) -> Dict[str, Any]:
 def extract_all_sources(sources_dict: Dict[str, Any]) -> List[Dict[str, Any]]:
     extracted_list = []
     
+    # Handle single files (Legacy CLI)
     if "csv" in sources_dict:
         extracted_list.extend(extract_from_csv(sources_dict["csv"]))
-        
     if "ats_json" in sources_dict:
         extracted_list.extend(extract_from_ats_json(sources_dict["ats_json"]))
-        
     if "github" in sources_dict:
         if isinstance(sources_dict["github"], dict):
             extracted_list.append(extract_from_github(sources_dict["github"]))
@@ -171,8 +180,27 @@ def extract_all_sources(sources_dict: Dict[str, Any]) -> List[Dict[str, Any]]:
                 extracted_list.append(extract_from_github(json.loads(sources_dict["github"])))
             except:
                 pass
-                
     if "notes" in sources_dict:
         extracted_list.append(extract_from_notes(sources_dict["notes"]))
+
+    # Handle multiple files (Directory mode)
+    if "csv_list" in sources_dict:
+        for csv_data in sources_dict["csv_list"]:
+            extracted_list.extend(extract_from_csv(csv_data))
+            
+    if "ats_json_list" in sources_dict:
+        for ats_data in sources_dict["ats_json_list"]:
+            extracted_list.extend(extract_from_ats_json(ats_data))
+            
+    if "github_list" in sources_dict:
+        for gh_data in sources_dict["github_list"]:
+            if isinstance(gh_data, str):
+                try: gh_data = json.loads(gh_data)
+                except: continue
+            extracted_list.append(extract_from_github(gh_data))
+            
+    if "notes_list" in sources_dict:
+        for notes_data in sources_dict["notes_list"]:
+            extracted_list.append(extract_from_notes(notes_data))
                 
     return [e for e in extracted_list if e]

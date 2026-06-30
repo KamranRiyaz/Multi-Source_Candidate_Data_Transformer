@@ -1,0 +1,8 @@
+{
+  "login": "bobbytables",
+  "name": "Bob Jones",
+  "email": "bob.jones@example.com",
+  "bio": "Frontend guy",
+  "repos_url": "https://api.github.com/users/bobbytables/repos",
+  "languages": ["JavaScript", "TypeScript"]
+}

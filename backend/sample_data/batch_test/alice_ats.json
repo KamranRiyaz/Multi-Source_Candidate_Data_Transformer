@@ -1,0 +1,10 @@
+{
+  "id": "101",
+  "full_name": "Alice Smith",
+  "email": "alice@smith.com",
+  "phone": "555-0100",
+  "skills": ["Python", "Machine Learning", "SQL"],
+  "experience": [
+    {"company": "DataCorp", "title": "Data Scientist"}
+  ]
+}
