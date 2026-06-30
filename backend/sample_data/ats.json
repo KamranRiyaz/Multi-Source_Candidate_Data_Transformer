@@ -1,0 +1,6 @@
+{
+  "name": "Jane H. Doe",
+  "email": "jane@doe.com",
+  "location": "San Francisco, CA",
+  "skills": ["react", "node", "aws"]
+}

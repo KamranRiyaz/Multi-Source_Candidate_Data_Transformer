@@ -1,0 +1,11 @@
+{
+  "name": "eightfold-assignment",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "cd frontend && npm install && npm run dev",
+    "build": "cd frontend && npm install && npm run build && cd .. && rm -rf dist && cp -r frontend/dist dist",
+    "lint": "cd frontend && npm run lint"
+  }
+}
