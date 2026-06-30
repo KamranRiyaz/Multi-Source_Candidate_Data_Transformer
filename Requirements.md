@@ -1,0 +1,1 @@
+[Messy Sources] ➡️ [1. Detect] ➡️ [2. Extract] ➡️ [3. Normalize] ➡️ [4. Merge (Weighted)] ➡️ [5. Project (Config)] ➡️ [6. Validate] ➡️ [Canonical JSON]
