@@ -71,7 +71,7 @@ def merge_profiles(extracted_sources: List[Dict[str, Any]]) -> Dict[str, Any]:
             if norm_skill:
                 if norm_skill not in seen_skills:
                     seen_skills[norm_skill] = {
-                        "name": skill, # preserve original case for the primary name
+                        "name": norm_skill, # Use the canonical/normalized name
                         "confidence": src.get("confidence", 0.0),
                         "sources": [src["source_name"]]
                     }

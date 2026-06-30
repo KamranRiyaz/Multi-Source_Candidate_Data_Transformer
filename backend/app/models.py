@@ -1,5 +1,5 @@
-from typing import List, Optional, Dict, Any, Union
-from pydantic import BaseModel, Field, EmailStr
+from typing import List, Optional, Dict, Any, Literal
+from pydantic import BaseModel, Field, ConfigDict
 
 class Location(BaseModel):
     city: Optional[str] = None
@@ -51,20 +51,25 @@ class CanonicalProfile(BaseModel):
     overall_confidence: float = 0.0
 
 class FieldConfig(BaseModel):
+    # CRITICAL: Allows Pydantic to map the JSON key "from" to "from_path"
+    model_config = ConfigDict(populate_by_name=True)
+
     path: str
     type: str
     required: bool = False
     from_path: Optional[str] = Field(default=None, alias="from")
-    normalize: Optional[str] = None
+    
+    # Enforce strict literals for normalization
+    normalize: Optional[Literal["E164", "E.164", "canonical", "uppercase", "lowercase"]] = None
     default_value: Optional[Any] = None
 
 class ProjectionConfig(BaseModel):
     fields: List[FieldConfig]
     include_confidence: bool = True
     include_provenance: bool = True
-    on_missing: str = "null"  # "null", "omit", or "error"
+    # Enforce strict literals for missing handling
+    on_missing: Literal["null", "omit", "error"] = "null"
 
 class TransformationRequest(BaseModel):
-    # Sources mapped by type
     sources: Dict[str, Any] 
     config: Optional[ProjectionConfig] = None

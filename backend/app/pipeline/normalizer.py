@@ -60,10 +60,15 @@ def normalize_skill_canonical(skill: str) -> str:
     """Canonicalize skill names."""
     if not skill:
         return ""
+    
+    skill_str = str(skill).strip()
+    if not skill_str:
+        return ""
+        
     mapping = {
         "react": "React", "react.js": "React", "reactjs": "React",
         "python": "Python", "python 3": "Python",
-        "node": "Node.js", "nodejs": "Node.js",
+        "node": "Node.js", "nodejs": "Node.js", "node.js": "Node.js",
         "aws": "AWS", "gcp": "GCP"
     }
-    return mapping.get(skill.strip().lower(), skill.strip())
+    return mapping.get(skill_str.lower(), skill_str)

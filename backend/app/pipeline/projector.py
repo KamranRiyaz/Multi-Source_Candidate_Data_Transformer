@@ -62,11 +62,14 @@ def project_data(canonical_dict: Dict[str, Any], config: ProjectionConfig) -> Di
             elif field_conf.normalize in ("E164", "E.164") and isinstance(val, list):
                 val = [normalize_phone(v) for v in val if isinstance(v, str)]
             elif field_conf.normalize == "canonical" and isinstance(val, list):
-                val = [normalize_skill_canonical(v) for v in val if isinstance(v, str)]
+                val = [normalize_skill_canonical(v.get("name") if isinstance(v, dict) else str(v)) for v in val]
             elif field_conf.normalize == "uppercase" and isinstance(val, list):
-                val = [v.upper() for v in val if isinstance(v, str)]
+                val = [v.get("name").upper() if isinstance(v, dict) else str(v).upper() for v in val]
             elif field_conf.normalize == "lowercase" and isinstance(val, list):
-                val = [v.lower() for v in val if isinstance(v, str)]
+                val = [v.get("name").lower() if isinstance(v, dict) else str(v).lower() for v in val]
+            elif isinstance(val, list) and field_conf.type == "string[]":
+                # Fallback to map objects to strings if string[] was requested but no matching normalization
+                val = [v.get("name") if isinstance(v, dict) else str(v) for v in val]
             
         # Set to projected dict (assuming flat for simplicity, though nested could be built)
         projected[field_conf.path] = val

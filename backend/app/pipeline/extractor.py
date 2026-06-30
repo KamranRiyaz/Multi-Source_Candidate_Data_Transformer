@@ -54,6 +54,14 @@ def extract_from_ats_json(json_text: str) -> List[Dict[str, Any]]:
     results = []
     
     for item in candidates:
+        raw_skills = item.get("skills", [])
+        if isinstance(raw_skills, str):
+            parsed_skills = [s.strip() for s in raw_skills.split(",")]
+        elif isinstance(raw_skills, list):
+            parsed_skills = [s.get("name", "") if isinstance(s, dict) else str(s) for s in raw_skills]
+        else:
+            parsed_skills = []
+
         extracted = {
             "source_type": "ats_json",
             "source_name": "ATS System",
@@ -61,7 +69,7 @@ def extract_from_ats_json(json_text: str) -> List[Dict[str, Any]]:
             "full_name": item.get("name") or item.get("full_name"),
             "emails": [],
             "phones": [],
-            "skills": item.get("skills", []),
+            "skills": parsed_skills,
             "location": {},
             "experience": [],
             "education": []
@@ -95,6 +103,16 @@ def extract_from_github(github_data: Dict[str, Any]) -> Dict[str, Any]:
     if not github_data:
         return {}
         
+    raw_languages = github_data.get("languages", [])
+    if isinstance(raw_languages, str):
+        gh_skills = [s.strip() for s in raw_languages.split(",")]
+    elif isinstance(raw_languages, dict):
+        gh_skills = list(raw_languages.keys())
+    elif isinstance(raw_languages, list):
+        gh_skills = [s.get("name", "") if isinstance(s, dict) else str(s) for s in raw_languages]
+    else:
+        gh_skills = []
+        
     return {
         "source_type": "github_profile",
         "source_name": f"GitHub ({github_data.get('login', 'User')})",
@@ -102,7 +120,7 @@ def extract_from_github(github_data: Dict[str, Any]) -> Dict[str, Any]:
         "full_name": github_data.get("name") or github_data.get("login"),
         "emails": [github_data["email"]] if github_data.get("email") else [],
         "phones": [],
-        "skills": github_data.get("languages", []),
+        "skills": gh_skills,
         "experience": [],
         "education": [],
         "location": {"city": github_data.get("location", "").split(",")[0]} if github_data.get("location") else {},
