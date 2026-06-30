@@ -1,0 +1,37 @@
+{
+  "candidate_id": "cand_35f5782642e9",
+  "full_name": "Jane Doe",
+  "emails": [
+    "jane@doe.com"
+  ],
+  "phones": [
+    "+15550192834"
+  ],
+  "location": {},
+  "links": {
+    "other": []
+  },
+  "headline": null,
+  "years_experience": null,
+  "skills": [],
+  "experience": [],
+  "education": [],
+  "provenance": [
+    {
+      "field": "full_name",
+      "source": "Recruiter Notes",
+      "method": "highest_confidence"
+    },
+    {
+      "field": "emails[jane@doe.com]",
+      "source": "Recruiter Notes",
+      "method": "normalize"
+    },
+    {
+      "field": "phones[+15550192834]",
+      "source": "Recruiter Notes",
+      "method": "normalize"
+    }
+  ],
+  "overall_confidence": 0.5
+}

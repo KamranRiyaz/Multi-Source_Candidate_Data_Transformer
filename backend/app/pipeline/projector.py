@@ -4,12 +4,20 @@ import pydantic
 from .normalizer import normalize_phone, normalize_skill_canonical
 
 def resolve_path(data: Dict, path: str) -> Any:
-    """Resolve a dot-notation or array path (e.g. emails[0], location.city)."""
+    """Resolve a dot-notation or array path (e.g. emails[0], location.city, skills[].name)."""
     parts = path.replace(']', '').replace('[', '.').split('.')
     current = data
-    for part in parts:
+    for i, part in enumerate(parts):
         if not part:
-            continue
+            # This happens with '[]' e.g. skills[].name
+            # If current is a list, map the rest of the path over each item
+            if isinstance(current, list):
+                remaining_path = '.'.join(parts[i+1:])
+                if not remaining_path:
+                    return current
+                return [resolve_path(item, remaining_path) for item in current]
+            return current
+            
         if isinstance(current, dict):
             current = current.get(part)
         elif isinstance(current, list):

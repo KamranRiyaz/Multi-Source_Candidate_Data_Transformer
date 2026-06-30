@@ -127,7 +127,7 @@ def extract_from_notes(notes_text: str) -> Dict[str, Any]:
     extracted["phones"] = list(set(re.findall(phone_regex, notes_text)))
     
     # 3. Name (Heuristic: "Name: John Doe" or "Candidate: John Doe")
-    name_match = re.search(r'(?:candidate|name):\s*([A-Za-z\s]{3,25})', notes_text, re.IGNORECASE)
+    name_match = re.search(r'(?:candidate|name):\s*([^\n\r]+)', notes_text, re.IGNORECASE)
     if name_match:
         extracted["full_name"] = name_match.group(1).strip()
         

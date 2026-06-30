@@ -62,6 +62,60 @@ def merge_profiles(extracted_sources: List[Dict[str, Any]]) -> Dict[str, Any]:
                     "source": src["source_name"],
                     "method": "normalize"
                 })
+
+    # 4. Skills (dedup and normalize canonical)
+    seen_skills = {}
+    for src in sorted_sources:
+        for skill in src.get("skills", []):
+            norm_skill = normalize_skill_canonical(skill)
+            if norm_skill:
+                if norm_skill not in seen_skills:
+                    seen_skills[norm_skill] = {
+                        "name": skill, # preserve original case for the primary name
+                        "confidence": src.get("confidence", 0.0),
+                        "sources": [src["source_name"]]
+                    }
+                    canonical["skills"].append(seen_skills[norm_skill])
+                    canonical["provenance"].append({
+                        "field": f"skills[{norm_skill}]",
+                        "source": src["source_name"],
+                        "method": "canonicalize"
+                    })
+                else:
+                    if src["source_name"] not in seen_skills[norm_skill]["sources"]:
+                        seen_skills[norm_skill]["sources"].append(src["source_name"])
+                
+    # 5. Experience
+    seen_experience = set()
+    for src in sorted_sources:
+        for exp in src.get("experience", []):
+            company = exp.get("company", "")
+            title = exp.get("title", "")
+            key = f"{company}::{title}".lower()
+            if key and key not in seen_experience:
+                seen_experience.add(key)
+                canonical["experience"].append(exp)
+                canonical["provenance"].append({
+                    "field": f"experience[{company}]",
+                    "source": src["source_name"],
+                    "method": "merge"
+                })
+
+    # 6. Education
+    seen_education = set()
+    for src in sorted_sources:
+        for edu in src.get("education", []):
+            institution = edu.get("institution", "")
+            degree = edu.get("degree", "")
+            key = f"{institution}::{degree}".lower()
+            if key and key not in seen_education:
+                seen_education.add(key)
+                canonical["education"].append(edu)
+                canonical["provenance"].append({
+                    "field": f"education[{institution}]",
+                    "source": src["source_name"],
+                    "method": "merge"
+                })
                 
     # Identify Candidate ID based on email or name
     id_base = canonical["emails"][0] if canonical["emails"] else canonical["full_name"]
