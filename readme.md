@@ -24,8 +24,9 @@ This project satisfies the Eightfold AI Engineering Intern (Jul-Dec 2026) Assign
 ### 1. Clone the Repository
 
 ```bash
-git clone <your-repository-url>
-cd <repository-name>
+git init
+git clone https://github.com/KamranRiyaz/Multi-Source_Candidate_Data_Transformer.git
+cd Multi-Source_Candidate_Data_Transformer
 ```
 
 ### 2. Run the FastAPI Backend
