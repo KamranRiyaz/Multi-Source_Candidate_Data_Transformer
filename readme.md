@@ -55,7 +55,7 @@ You can run the pipeline purely from the command line without the web server. I 
 **Process individual files:**
 ```bash
 cd backend
-python cli.py --csv ../sample_data/recruiter.csv --ats ./sample_data/ats.json --notes ./sample_data/notes.txt --config ./config.json --out result.json
+python cli.py --csv ./sample_data/recruiter.csv --ats ./sample_data/ats.json --notes ./sample_data/notes.txt --config ./config.json --out result.json
 ```
 
 **Process an entire directory of mixed files:**
