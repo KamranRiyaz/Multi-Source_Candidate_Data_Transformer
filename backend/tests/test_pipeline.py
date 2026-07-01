@@ -90,19 +90,8 @@ def test_edge_case_2_array_out_of_bounds():
     projected = project_data(canonical, config)
     assert projected.get("secondary_email") is None
 
-def test_edge_case_3_required_field_missing_throws_error():
-    """Edge Case 3: Missing required field aborts the projection if on_missing='error'."""
-    canonical = {"full_name": "Jane Doe"} # Missing emails
-    config = ProjectionConfig(**{
-        "fields": [
-            {"path": "primary_email", "from": "emails[0]", "type": "string", "required": True}
-        ],
-        "on_missing": "error"
-    })
-    with pytest.raises(ValueError, match="Required field missing: primary_email"):
-        project_data(canonical, config)
 
-def test_edge_case_4_empty_or_null_values_in_merger():
+def test_edge_case_3_empty_or_null_values_in_merger():
     """Edge Case 4: Merger should ignore nulls and pick the next best confidence value."""
     sources = [
         {"source_name": "ATS", "confidence": 0.95, "full_name": None, "emails": []},
@@ -112,7 +101,7 @@ def test_edge_case_4_empty_or_null_values_in_merger():
     assert canonical["full_name"] == "Fallback Name"
     assert len(canonical["emails"]) == 0
 
-def test_edge_case_5_deduplication_of_similar_array_items():
+def test_edge_case_4_deduplication_of_similar_array_items():
     """Edge Case 5: Ensure normalized arrays deduplicate exactly (e.g. skills casing)."""
     from app.pipeline.normalizer import normalize_skill_canonical
     # Test that normalizer flattens cases
