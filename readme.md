@@ -24,6 +24,7 @@ This project satisfies the Eightfold AI Engineering Intern (Jul-Dec 2026) Assign
 ### 1. Run the FastAPI Backend
 
 The backend does the heavy lifting. It must be running for the UI to work.
+After cloning the repo go to the project folder in the terminal and run the following
 
 ```bash
 cd backend
@@ -37,7 +38,7 @@ _The backend API will be available at `http://localhost:8000`. You can view the 
 
 ### 2. Run the React Frontend (Optional UI)
 
-In a new terminal window:
+In a new terminal window, go to the project folder again and run the following to start the react app:
 
 ```bash
 cd frontend
