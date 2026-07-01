@@ -56,7 +56,13 @@ npm run dev
 
 _The UI will be available at `http://localhost:3000`._
 
-Troubleshooting Note for Reviewers: > The npm run dev script uses npx to ensure the local Vite binary resolves correctly regardless of environment caching. If you happen to encounter any missing dependency errors on a fresh machine, a clean install (rm -rf node_modules package-lock.json && npm install) will resolve them
+Troubleshooting Note for Reviewers:
+If you encounter a vite: command not found error after the initial setup, it indicates a local npm caching or symlink generation failure rather than a missing dependency. You can force npm to rebuild the executable links correctly by running a clean install:
+```bash
+rm -rf node_modules package-lock.json
+npm cache clean --force
+npm install
+```
 
 ### 4. Run the CLI
 
