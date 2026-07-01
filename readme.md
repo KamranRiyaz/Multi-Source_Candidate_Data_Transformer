@@ -48,7 +48,35 @@ npm run dev
 
 _The UI will be available at `http://localhost:3000`._
 
-### 3. Run the CLI (Headless Mode)
+If your machine prints `vite: command not found`, run the frontend with `npm exec` so npm resolves the local Vite binary directly:
+
+```bash
+cd frontend
+npm install
+npm exec vite -- --port=3000 --host=0.0.0.0
+```
+
+If you want a single command from the repository root, use:
+
+```bash
+npm run dev
+```
+
+That root script installs the frontend dependencies and starts Vite for you.
+
+### Frontend Troubleshooting
+
+If the frontend still fails on a new machine, do a clean reinstall inside `frontend`:
+
+```bash
+rm -rf node_modules package-lock.json
+npm install
+npm exec vite -- --port=3000 --host=0.0.0.0
+```
+
+If `npm run dev` still cannot find `vite`, verify that you are running the command from the `frontend` directory or use the repository-root command above.
+
+### 3. Run the CLI
 
 You can run the pipeline purely from the command line without the web server. I have included sample files in the `/sample_data` directory. The CLI groups candidates automatically across multiple files based on email/name matching.
 
