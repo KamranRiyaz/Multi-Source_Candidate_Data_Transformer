@@ -1,6 +1,6 @@
 from typing import Dict, Any, List
 from ..models import ProjectionConfig
-from .normalizer import normalize_phone, normalize_skill_canonical
+from .normalizer import normalize_phone, normalize_skill_canonical, normalize_date, normalize_email, normalize_country
 
 def resolve_path(data: Dict, path: str) -> Any:
     """Resolve a dot-notation or array path (e.g. emails[0], location.city, skills[].name or skills[*].name)."""
@@ -48,7 +48,11 @@ def project_data(canonical_dict: Dict[str, Any], config: ProjectionConfig) -> Di
                 continue
             # Raise error if globally requested OR locally required
             elif config.on_missing == "error" or getattr(field_conf, 'required', False):
-                raise ValueError(f"Missing value for required projection path: '{field_conf.path}'")
+                missing_path = source_path if source_path else field_conf.path
+                raise ValueError(
+                    f"Missing value for required projection field '{field_conf.path}' "
+                    f"(source path: '{missing_path}')"
+                )
             else:
                 val = None
                 
@@ -72,10 +76,25 @@ def project_data(canonical_dict: Dict[str, Any], config: ProjectionConfig) -> Di
                     val = [normalize_skill_canonical(v) for v in val if isinstance(v, str)]
                 elif isinstance(val, str):
                     val = normalize_skill_canonical(val)
+            elif norm == "YYYY-MM":
+                if isinstance(val, list):
+                    val = [normalize_date(v) for v in val if isinstance(v, str)]
+                elif isinstance(val, str):
+                    val = normalize_date(val)
             elif norm == "uppercase":
                 val = [v.upper() for v in val if isinstance(v, str)] if isinstance(val, list) else val.upper()
             elif norm == "lowercase":
                 val = [v.lower() for v in val if isinstance(v, str)] if isinstance(val, list) else val.lower()
+            elif norm == "email":
+                if isinstance(val, list):
+                    val = [normalize_email(v) for v in val if isinstance(v, str)]
+                elif isinstance(val, str):
+                    val = normalize_email(val)
+            elif norm == "ISO-3166-2":
+                if isinstance(val, list):
+                    val = [normalize_country(v) for v in val if isinstance(v, str)]
+                elif isinstance(val, str):
+                    val = normalize_country(val)
             
             projected[field_conf.path] = val
             

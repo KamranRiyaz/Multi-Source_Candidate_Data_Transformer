@@ -1,60 +1,23 @@
 [
   {
-    "full_name": "Jane Doe",
-    "primary_email": "jane.doe@example.com",
-    "phone": "+15550192834",
+    "full_name": "Charlie Brown",
+    "primary_email": "charlie@brown.org",
+    "phone": "+5550300",
     "skills": [],
-    "overall_confidence": 0.85,
-    "provenance": [
-      {
-        "field": "full_name",
-        "source": "Recruiter CSV",
-        "method": "highest_confidence"
-      },
-      {
-        "field": "emails[jane.doe@example.com]",
-        "source": "Recruiter CSV",
-        "method": "normalize"
-      },
-      {
-        "field": "phones[+15550192834]",
-        "source": "Recruiter CSV",
-        "method": "normalize"
-      },
-      {
-        "field": "experience[Acme Corp]",
-        "source": "Recruiter CSV",
-        "method": "merge"
-      }
-    ]
+    "overall_confidence": 0.8999999999999999
   },
   {
-    "full_name": "John Smith",
-    "primary_email": "jsmith@test.com",
-    "phone": "+11234567890",
+    "full_name": "Bob Jones",
+    "primary_email": "bob.jones@example.com",
+    "phone": "+5550200",
     "skills": [],
-    "overall_confidence": 0.85,
-    "provenance": [
-      {
-        "field": "full_name",
-        "source": "Recruiter CSV",
-        "method": "highest_confidence"
-      },
-      {
-        "field": "emails[jsmith@test.com]",
-        "source": "Recruiter CSV",
-        "method": "normalize"
-      },
-      {
-        "field": "phones[+11234567890]",
-        "source": "Recruiter CSV",
-        "method": "normalize"
-      },
-      {
-        "field": "experience[Tech LLC]",
-        "source": "Recruiter CSV",
-        "method": "merge"
-      }
-    ]
+    "overall_confidence": 0.7333333333333334
+  },
+  {
+    "full_name": "Alice Smith",
+    "primary_email": "alice@smith.com",
+    "phone": "+5550100",
+    "skills": [],
+    "overall_confidence": 0.85
   }
 ]

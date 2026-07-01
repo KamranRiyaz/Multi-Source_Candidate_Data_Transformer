@@ -1,4 +1,5 @@
 import re
+from datetime import datetime
 
 def normalize_phone(phone: str) -> str:
     """Normalize phone to E.164-like format."""
@@ -20,27 +21,25 @@ def normalize_email(email: str) -> str:
     return email.strip().lower()
 
 def normalize_date(date_str: str) -> str:
-    """Normalize date to YYYY-MM."""
-    if not date_str:
-        return None
-    val = date_str.strip().lower()
-    if val in ("present", "current"):
-        return "Present"
-    
-    # YYYY-MM or YYYY/MM
-    match_yyyymm = re.match(r'^(\d{4})[-/](\d{1,2})', val)
-    if match_yyyymm:
-        return f"{match_yyyymm.group(1)}-{int(match_yyyymm.group(2)):02d}"
-    
-    # MM/YYYY
-    match_mmyyyy = re.match(r'^(\d{1,2})[-/](\d{4})', val)
-    if match_mmyyyy:
-        return f"{match_mmyyyy.group(2)}-{int(match_mmyyyy.group(1)):02d}"
-    
-    # Year only
-    if re.match(r'^\d{4}$', val):
-        return f"{val}-01"
+    if not date_str or not isinstance(date_str, str):
+        return date_str
         
+    date_str = date_str.strip()
+    
+    # Common date formats found in resumes and ATS systems
+    formats = (
+        "%Y-%m-%d", "%Y-%m", "%m/%Y", "%m/%d/%Y", 
+        "%b %Y", "%B %Y", "%b %d, %Y", "%B %d, %Y"
+    )
+    
+    for fmt in formats:
+        try:
+            dt = datetime.strptime(date_str, fmt)
+            return dt.strftime("%Y-%m")
+        except ValueError:
+            continue
+            
+    # Fallback to the original string if it doesn't match any known format
     return date_str
 
 def normalize_country(country: str) -> str:

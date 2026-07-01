@@ -1,8 +1,11 @@
 import csv
 import io
 import json
+import re
 from typing import List, Dict, Any
-from .normalizer import normalize_email, normalize_phone
+
+# Added normalize_country to the import list
+from .normalizer import normalize_email, normalize_phone, normalize_country
 
 def extract_from_csv(csv_text: str) -> List[Dict[str, Any]]:
     """Extract from recruiter CSV."""
@@ -16,12 +19,16 @@ def extract_from_csv(csv_text: str) -> List[Dict[str, Any]]:
         # Standardize keys
         normalized_row = {k.strip().lower(): v.strip() for k, v in row.items() if k and v}
         
+        # 1. Early Normalization for Email
+        raw_email = normalized_row.get("email")
+        normalized_email = normalize_email(raw_email) if raw_email else None
+        
         extracted = {
             "source_type": "csv",
             "source_name": "Recruiter CSV",
             "confidence": 0.85,
             "full_name": normalized_row.get("name"),
-            "emails": [normalized_row.get("email")] if normalized_row.get("email") else [],
+            "emails": [normalized_email] if normalized_email else [],
             "phones": [normalized_row.get("phone")] if normalized_row.get("phone") else [],
             "experience": []
         }
@@ -75,8 +82,10 @@ def extract_from_ats_json(json_text: str) -> List[Dict[str, Any]]:
             "education": []
         }
         
+        # 1. Early Normalization for Email
         if "email" in item:
-            extracted["emails"].append(item["email"])
+            extracted["emails"].append(normalize_email(item["email"]))
+            
         if "phone" in item:
             extracted["phones"].append(item["phone"])
             
@@ -86,13 +95,15 @@ def extract_from_ats_json(json_text: str) -> List[Dict[str, Any]]:
         if "education" in item:
             extracted["education"] = item["education"]
             
+        # 2. Early Normalization for Country
         loc = item.get("location")
         if isinstance(loc, str):
             parts = [p.strip() for p in loc.split(",")]
             if len(parts) > 0:
                 extracted["location"]["city"] = parts[0]
             if len(parts) > 1:
-                extracted["location"]["country"] = parts[-1]
+                # Apply country normalization immediately
+                extracted["location"]["country"] = normalize_country(parts[-1])
                 
         results.append(extracted)
         
@@ -113,22 +124,34 @@ def extract_from_github(github_data: Dict[str, Any]) -> Dict[str, Any]:
     else:
         gh_skills = []
         
+    # Early Normalization for Email
+    raw_email = github_data.get("email")
+    normalized_email = normalize_email(raw_email) if raw_email else None
+    
+    # Early Normalization for Country (GitHub Location parsing)
+    location_dict = {}
+    gh_loc = github_data.get("location")
+    if gh_loc:
+        parts = [p.strip() for p in gh_loc.split(",")]
+        location_dict["city"] = parts[0]
+        if len(parts) > 1:
+            location_dict["country"] = normalize_country(parts[-1])
+        
     return {
         "source_type": "github_profile",
         "source_name": f"GitHub ({github_data.get('login', 'User')})",
         "confidence": 0.75,
         "full_name": github_data.get("name") or github_data.get("login"),
-        "emails": [github_data["email"]] if github_data.get("email") else [],
+        "emails": [normalized_email] if normalized_email else [],
         "phones": [],
         "skills": gh_skills,
         "experience": [],
         "education": [],
-        "location": {"city": github_data.get("location", "").split(",")[0]} if github_data.get("location") else {},
+        "location": location_dict,
         "links": {"github": github_data.get("html_url")} if github_data.get("html_url") else {},
         "headline": github_data.get("bio")
     }
 
-import re
 
 def extract_from_notes(notes_text: str) -> Dict[str, Any]:
     """Extract from unstructured recruiter notes using regex/heuristics."""
@@ -146,9 +169,10 @@ def extract_from_notes(notes_text: str) -> Dict[str, Any]:
         "experience": []
     }
     
-    # 1. Emails
+    # 1. Early Normalization for Emails
     email_regex = r'[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}'
-    extracted["emails"] = list(set(re.findall(email_regex, notes_text)))
+    raw_emails = list(set(re.findall(email_regex, notes_text)))
+    extracted["emails"] = [normalize_email(e) for e in raw_emails]
     
     # 2. Phones
     phone_regex = r'(?:\+?\d{1,3}[-.\s]?)?\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}'

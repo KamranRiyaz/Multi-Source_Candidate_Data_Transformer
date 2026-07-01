@@ -60,7 +60,15 @@ class FieldConfig(BaseModel):
     from_path: Optional[str] = Field(default=None, alias="from")
     
     # Enforce strict literals for normalization
-    normalize: Optional[Literal["E164", "E.164", "canonical", "uppercase", "lowercase"]] = None
+    normalize: Optional[Literal[
+        "E164", 
+        "E.164", 
+        "canonical", 
+        "uppercase", 
+        "lowercase", 
+        "YYYY-MM",        # Added for dates
+        "email",          # Added for emails
+        "ISO-3166-2"]] = None
     default_value: Optional[Any] = None
 
 class ProjectionConfig(BaseModel):
