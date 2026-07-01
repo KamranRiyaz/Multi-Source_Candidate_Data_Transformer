@@ -49,7 +49,7 @@ _The UI will be available at `http://localhost:3000`._
 
 ### 3. Run the CLI (Headless Mode)
 
-You can run the pipeline purely from the command line without the web server. We have included sample files in the `/sample_data` directory. The CLI groups candidates automatically across multiple files based on email/name matching.
+You can run the pipeline purely from the command line without the web server. I have included sample files in the `/sample_data` directory. The CLI groups candidates automatically across multiple files based on email/name matching.
 
 **Process individual files:**
 ```bash
