@@ -1,305 +1,60 @@
 [
   {
-    "candidate_id": "cand_2f8cdc35c38a",
-    "full_name": "Charlie Brown",
-    "emails": [
-      "charlie@brown.org"
-    ],
-    "phones": [
-      "+5550300"
-    ],
-    "location": {},
-    "links": {
-      "other": []
-    },
-    "headline": null,
-    "years_experience": null,
-    "skills": [
-      {
-        "name": "Go",
-        "confidence": 0.95,
-        "sources": [
-          "ATS System"
-        ]
-      },
-      {
-        "name": "Docker",
-        "confidence": 0.95,
-        "sources": [
-          "ATS System"
-        ]
-      },
-      {
-        "name": "Kubernetes",
-        "confidence": 0.95,
-        "sources": [
-          "ATS System"
-        ]
-      }
-    ],
-    "experience": [
-      {
-        "company": "SnoopyTech",
-        "title": "Backend Developer"
-      }
-    ],
-    "education": [],
+    "full_name": "Jane Doe",
+    "primary_email": "jane.doe@example.com",
+    "phone": "+15550192834",
+    "skills": [],
+    "overall_confidence": 0.85,
     "provenance": [
       {
         "field": "full_name",
-        "source": "ATS System",
+        "source": "Recruiter CSV",
         "method": "highest_confidence"
       },
       {
-        "field": "emails[charlie@brown.org]",
-        "source": "ATS System",
+        "field": "emails[jane.doe@example.com]",
+        "source": "Recruiter CSV",
         "method": "normalize"
       },
       {
-        "field": "phones[+5550300]",
-        "source": "ATS System",
+        "field": "phones[+15550192834]",
+        "source": "Recruiter CSV",
         "method": "normalize"
       },
       {
-        "field": "skills[Go]",
-        "source": "ATS System",
-        "method": "canonicalize"
-      },
-      {
-        "field": "skills[Docker]",
-        "source": "ATS System",
-        "method": "canonicalize"
-      },
-      {
-        "field": "skills[Kubernetes]",
-        "source": "ATS System",
-        "method": "canonicalize"
-      },
-      {
-        "field": "experience[SnoopyTech]",
-        "source": "ATS System",
+        "field": "experience[Acme Corp]",
+        "source": "Recruiter CSV",
         "method": "merge"
       }
-    ],
-    "overall_confidence": 0.8999999999999999
+    ]
   },
   {
-    "candidate_id": "cand_e4fad4e14a9d",
-    "full_name": "Bob Jones",
-    "emails": [
-      "bob.jones@example.com"
-    ],
-    "phones": [
-      "+5550200"
-    ],
-    "location": {},
-    "links": {
-      "other": []
-    },
-    "headline": null,
-    "years_experience": null,
-    "skills": [
-      {
-        "name": "React",
-        "confidence": 0.95,
-        "sources": [
-          "ATS System",
-          "Recruiter Notes"
-        ]
-      },
-      {
-        "name": "JavaScript",
-        "confidence": 0.95,
-        "sources": [
-          "ATS System",
-          "GitHub (bobbytables)"
-        ]
-      },
-      {
-        "name": "CSS",
-        "confidence": 0.95,
-        "sources": [
-          "ATS System"
-        ]
-      },
-      {
-        "name": "TypeScript",
-        "confidence": 0.75,
-        "sources": [
-          "GitHub (bobbytables)"
-        ]
-      },
-      {
-        "name": "vue",
-        "confidence": 0.5,
-        "sources": [
-          "Recruiter Notes"
-        ]
-      }
-    ],
-    "experience": [
-      {
-        "company": "WebCorp",
-        "title": "Frontend Eng"
-      }
-    ],
-    "education": [],
+    "full_name": "John Smith",
+    "primary_email": "jsmith@test.com",
+    "phone": "+11234567890",
+    "skills": [],
+    "overall_confidence": 0.85,
     "provenance": [
       {
         "field": "full_name",
-        "source": "ATS System",
+        "source": "Recruiter CSV",
         "method": "highest_confidence"
       },
       {
-        "field": "emails[bob.jones@example.com]",
-        "source": "ATS System",
+        "field": "emails[jsmith@test.com]",
+        "source": "Recruiter CSV",
         "method": "normalize"
       },
       {
-        "field": "phones[+5550200]",
-        "source": "ATS System",
+        "field": "phones[+11234567890]",
+        "source": "Recruiter CSV",
         "method": "normalize"
       },
       {
-        "field": "skills[React]",
-        "source": "ATS System",
-        "method": "canonicalize"
-      },
-      {
-        "field": "skills[JavaScript]",
-        "source": "ATS System",
-        "method": "canonicalize"
-      },
-      {
-        "field": "skills[CSS]",
-        "source": "ATS System",
-        "method": "canonicalize"
-      },
-      {
-        "field": "skills[TypeScript]",
-        "source": "GitHub (bobbytables)",
-        "method": "canonicalize"
-      },
-      {
-        "field": "skills[vue]",
-        "source": "Recruiter Notes",
-        "method": "canonicalize"
-      },
-      {
-        "field": "experience[WebCorp]",
-        "source": "ATS System",
+        "field": "experience[Tech LLC]",
+        "source": "Recruiter CSV",
         "method": "merge"
       }
-    ],
-    "overall_confidence": 0.7333333333333334
-  },
-  {
-    "candidate_id": "cand_95ff44eddfce",
-    "full_name": "Alice Smith",
-    "emails": [
-      "alice@smith.com"
-    ],
-    "phones": [
-      "+5550100"
-    ],
-    "location": {},
-    "links": {
-      "other": []
-    },
-    "headline": null,
-    "years_experience": null,
-    "skills": [
-      {
-        "name": "Python",
-        "confidence": 0.95,
-        "sources": [
-          "ATS System",
-          "GitHub (alicesmith123)"
-        ]
-      },
-      {
-        "name": "Machine Learning",
-        "confidence": 0.95,
-        "sources": [
-          "ATS System"
-        ]
-      },
-      {
-        "name": "SQL",
-        "confidence": 0.95,
-        "sources": [
-          "ATS System"
-        ]
-      },
-      {
-        "name": "Jupyter Notebook",
-        "confidence": 0.75,
-        "sources": [
-          "GitHub (alicesmith123)"
-        ]
-      },
-      {
-        "name": "C++",
-        "confidence": 0.75,
-        "sources": [
-          "GitHub (alicesmith123)"
-        ]
-      }
-    ],
-    "experience": [
-      {
-        "company": "DataCorp",
-        "title": "Data Scientist"
-      }
-    ],
-    "education": [],
-    "provenance": [
-      {
-        "field": "full_name",
-        "source": "ATS System",
-        "method": "highest_confidence"
-      },
-      {
-        "field": "emails[alice@smith.com]",
-        "source": "ATS System",
-        "method": "normalize"
-      },
-      {
-        "field": "phones[+5550100]",
-        "source": "ATS System",
-        "method": "normalize"
-      },
-      {
-        "field": "skills[Python]",
-        "source": "ATS System",
-        "method": "canonicalize"
-      },
-      {
-        "field": "skills[Machine Learning]",
-        "source": "ATS System",
-        "method": "canonicalize"
-      },
-      {
-        "field": "skills[SQL]",
-        "source": "ATS System",
-        "method": "canonicalize"
-      },
-      {
-        "field": "skills[Jupyter Notebook]",
-        "source": "GitHub (alicesmith123)",
-        "method": "canonicalize"
-      },
-      {
-        "field": "skills[C++]",
-        "source": "GitHub (alicesmith123)",
-        "method": "canonicalize"
-      },
-      {
-        "field": "experience[DataCorp]",
-        "source": "ATS System",
-        "method": "merge"
-      }
-    ],
-    "overall_confidence": 0.85
+    ]
   }
 ]

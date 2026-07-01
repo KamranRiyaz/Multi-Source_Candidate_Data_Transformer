@@ -35,14 +35,11 @@ def transform_profile(request: TransformationRequest):
             
             # 4. Project
             if request.config:
-                projected = project_data(canonical_dict, request.config)
+                output = project_data(canonical_dict, request.config)
             else:
-                projected = canonical_dict
+                output = canonical_dict
                 
-            results.append({
-                "canonical": canonical_dict,
-                "projected": projected
-            })
+            results.append(output)
             
         # Return a single object if only one candidate, else a list
         if len(results) == 1:
