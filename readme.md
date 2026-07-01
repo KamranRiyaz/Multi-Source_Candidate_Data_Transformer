@@ -21,7 +21,14 @@ This project satisfies the Eightfold AI Engineering Intern (Jul-Dec 2026) Assign
 - Node.js (v18+)
 - Python (3.10+)
 
-### 1. Run the FastAPI Backend
+### 1. Clone the Repository
+
+```bash
+git clone <your-repository-url>
+cd <repository-name>
+```
+
+### 2. Run the FastAPI Backend
 
 The backend does the heavy lifting. It must be running for the UI to work.
 After cloning the repo go to the project folder in the terminal and run the following
@@ -36,7 +43,7 @@ uvicorn app.main:app --reload --port 8000
 
 _The backend API will be available at `http://localhost:8000`. You can view the auto-generated API docs at `http://localhost:8000/docs`._
 
-### 2. Run the React Frontend (Optional UI)
+### 3. Run the React Frontend (Optional UI)
 
 In a new terminal window, go to the project folder again and run the following to start the react app:
 
@@ -48,35 +55,9 @@ npm run dev
 
 _The UI will be available at `http://localhost:3000`._
 
-If your machine prints `vite: command not found`, run the frontend with `npm exec` so npm resolves the local Vite binary directly:
+Troubleshooting Note for Reviewers: > The npm run dev script uses npx to ensure the local Vite binary resolves correctly regardless of environment caching. If you happen to encounter any missing dependency errors on a fresh machine, a clean install (rm -rf node_modules package-lock.json && npm install) will resolve them
 
-```bash
-cd frontend
-npm install
-npm exec vite -- --port=3000 --host=0.0.0.0
-```
-
-If you want a single command from the repository root, use:
-
-```bash
-npm run dev
-```
-
-That root script installs the frontend dependencies and starts Vite for you.
-
-### Frontend Troubleshooting
-
-If the frontend still fails on a new machine, do a clean reinstall inside `frontend`:
-
-```bash
-rm -rf node_modules package-lock.json
-npm install
-npm exec vite -- --port=3000 --host=0.0.0.0
-```
-
-If `npm run dev` still cannot find `vite`, verify that you are running the command from the `frontend` directory or use the repository-root command above.
-
-### 3. Run the CLI
+### 4. Run the CLI
 
 You can run the pipeline purely from the command line without the web server. I have included sample files in the `/sample_data` directory. The CLI groups candidates automatically across multiple files based on email/name matching.
 
@@ -92,7 +73,7 @@ cd backend
 python cli.py --dir ./sample_data --config ./config.json --out batch_results.json
 ```
 
-### 4. Run the Tests
+### 5. Run the Tests
 
 ```bash
 cd backend
